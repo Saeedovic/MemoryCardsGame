@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class MainToken : MonoBehaviour
@@ -11,7 +12,7 @@ public class MainToken : MonoBehaviour
     public Sprite back;
     public int faceIndex;
     public bool matched = false;
-    private Animator animator;
+  private Animator animator;
    // public GameControl _gameControl;
     
 
@@ -31,9 +32,14 @@ public class MainToken : MonoBehaviour
 
     IEnumerator ProcessMouseDown()
     {
+        // Get the current animator state info
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        animator.SetTrigger("Flip");
+       // Debug.Log("Flip1");
+
+
         // Wait for the rotation animation to finish
-        yield return new WaitForSeconds(1);
-        animator.SetTrigger("Idle");
+        yield return new WaitForSecondsRealtime(stateInfo.length);
 
         // Continue with the rest of the logic
         if (!matched)
@@ -44,9 +50,12 @@ public class MainToken : MonoBehaviour
                 {
                     spriteRenderer.sprite = faces[faceIndex];
                     gameControl.GetComponent<GameControl>().AddVisibleFace(faceIndex);
+
+                    // Play the flip animation forward
+                //    animator.SetTrigger("Flip");
+
                     if (gameControl.GetComponent<GameControl>().TwoCardsUp())
                     {
-                       // RotateToken();
                         StartCoroutine(CheckMatchedCards());
                     }
                 }
@@ -55,16 +64,19 @@ public class MainToken : MonoBehaviour
             {
                 spriteRenderer.sprite = back;
                 gameControl.GetComponent<GameControl>().RemoveVisibleFace(faceIndex);
+
+                // Play the flip animation backward
+               // animator.SetTrigger("Flip");
             }
         }
     }
 
-   
+
 
     IEnumerator CheckMatchedCards()
     {
-        yield return new WaitForSeconds(1f); // Adjust delay time as needed
-        animator.SetTrigger("Idle");
+      //  yield return new WaitForSeconds(1f); // Adjust delay time as needed
+      //  animator.SetTrigger("Idle");
 
         if (!gameControl.GetComponent<GameControl>().CheckMatch())
         {
@@ -74,8 +86,14 @@ public class MainToken : MonoBehaviour
                 var mainToken = token.GetComponent<MainToken>();
                 if (!mainToken.matched && mainToken.spriteRenderer.sprite != mainToken.back)
                 {
-                   mainToken.RotateToken(); // Trigger closing animation
-                    yield return new WaitForSeconds(1.2f);
+                    AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+                    animator.SetTrigger("Flip");
+                    Debug.Log("Flip2");
+
+
+
+
+                    yield return new WaitForSecondsRealtime(stateInfo.length);
                     mainToken.spriteRenderer.sprite = mainToken.back;
                     gameControl.GetComponent<GameControl>().RemoveVisibleFace(mainToken.faceIndex);
                 }
@@ -98,6 +116,6 @@ public class MainToken : MonoBehaviour
 
     public void RotateToken()
     {
-        animator.SetTrigger("Rotate");
+       // animator.SetTrigger("Rotate");
     }
 }

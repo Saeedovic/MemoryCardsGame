@@ -64,7 +64,6 @@ public class LeaderboardManager : MonoBehaviour
             string json = File.ReadAllText(Application.persistentDataPath + "/leaderboard.json");
             Debug.Log("Loaded leaderboard data: " + json);
 
-            // Use a try-catch block to check if the JSON data is valid
             try
             {
                 leaderboardEntries = FromJsonList<LeaderboardEntry>(json);
@@ -93,20 +92,20 @@ public class LeaderboardManager : MonoBehaviour
         SaveLeaderboard();
         CheckSavedLeaderboardData();
 
-        // Add the following line to check if UpdateLeaderboardUI is being called
+        
         Debug.Log("Calling UpdateLeaderboardUI");
 
         UpdateLeaderboardUI(); // Update UI with new entry
     }
 
 
-    // Sort the leaderboard entries by completion time (ascending order)
+   
     public void SortLeaderboard()
     {
         leaderboardEntries.Sort((x, y) => x.completionTime.CompareTo(y.completionTime));
     }
 
-    // Remove excess entries if the leaderboard exceeds the maximum allowed entries
+   
     public void TrimLeaderboard()
     {
         while (leaderboardEntries.Count > maxEntries)

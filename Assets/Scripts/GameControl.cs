@@ -8,11 +8,13 @@ public class GameControl : MonoBehaviour
     public static GameControl Instance;
 
     public LeaderboardManager leaderboardManager;
-    public GameObject token;
+    public GameObject tokenPrefab;
     List<int> faceIndexes = new List<int> { 0, 1, 2, 3, 0, 1, 2, 3 };
     public static System.Random rnd = new System.Random();
     public int shuffleNum = 0;
     int[] visibleFaces = { -1, -2 };
+    public Vector3[] instantiatePositions;
+
 
     [SerializeField]
     private float startTime;
@@ -21,31 +23,24 @@ public class GameControl : MonoBehaviour
     public GameObject submitButtonGameObject;
     private int matchCount = 0;
 
+
     void Start()
     {
-        // leaderboardManager.LoadLeaderboard();
         startTime = Time.time;
-        int originalLength = faceIndexes.Count;
-        float yPosition = 2.3f;
-        float xPosition = -2.2f;
-        for (int i = 0; i < 7; i++)
+        InitializeTokens();
+    }
+
+    private void InitializeTokens()
+    {
+        for (int i = 0; i < instantiatePositions.Length; i++)
         {
-            shuffleNum = rnd.Next(0, (faceIndexes.Count));
-            var temp = Instantiate(token, new Vector3(
-                xPosition, yPosition, 0),
-                Quaternion.identity);
-            Debug.Log("Instatiated");
+            var temp = Instantiate(tokenPrefab, instantiatePositions[i], Quaternion.identity);
+            shuffleNum = rnd.Next(0, faceIndexes.Count);
             temp.GetComponent<MainToken>().faceIndex = faceIndexes[shuffleNum];
             faceIndexes.Remove(faceIndexes[shuffleNum]);
-            xPosition = xPosition + 4;
-            if (i == (originalLength / 2 - 2))
-            {
-                yPosition = -2.3f;
-                xPosition = -6.2f;
-            }
             temp.tag = "Token";
         }
-        token.GetComponent<MainToken>().faceIndex = faceIndexes[0];
+            tokenPrefab.SetActive(false);
     }
 
     public bool TwoCardsUp()
@@ -129,7 +124,7 @@ public class GameControl : MonoBehaviour
             Destroy(gameObject); // Destroy the duplicate instance
         }
 
-        token = GameObject.Find("Token");
+        tokenPrefab = GameObject.Find("Token");
 
         inputFieldGameObject.SetActive(false);
         submitButtonGameObject.SetActive(false);
