@@ -14,7 +14,7 @@ public class GameControl : MonoBehaviour
     public int shuffleNum = 0;
     int[] visibleFaces = { -1, -2 };
     public Vector3[] instantiatePositions;
-
+    private int flippedCardsCount = 0;
 
     [SerializeField]
     private float startTime;
@@ -45,23 +45,22 @@ public class GameControl : MonoBehaviour
 
     public bool TwoCardsUp()
     {
-        bool cardsUp = false;
-        if (visibleFaces[0] >= 0 && visibleFaces[1] >= 0)
-        {
-            cardsUp = true;
-        }
-        return cardsUp;
+        return flippedCardsCount >= 2; // Allow flipping only if less than two cards are flipped
     }
 
     public void AddVisibleFace(int index)
     {
-        if (visibleFaces[0] == -1)
-        {
-            visibleFaces[0] = index;
-        }
-        else if (visibleFaces[1] == -2)
-        {
-            visibleFaces[1] = index;
+        if (flippedCardsCount < 2)
+        { // Allow adding only if less than two cards are flipped
+            if (visibleFaces[0] == -1)
+            {
+                visibleFaces[0] = index;
+            }
+            else if (visibleFaces[1] == -2)
+            {
+                visibleFaces[1] = index;
+            }
+            flippedCardsCount++; // Increment flipped cards count
         }
     }
 
@@ -75,6 +74,7 @@ public class GameControl : MonoBehaviour
         {
             visibleFaces[1] = -2;
         }
+        flippedCardsCount--; // Decrement flipped cards count
     }
 
     public bool AllCardsMatched()
@@ -101,6 +101,9 @@ public class GameControl : MonoBehaviour
             Debug.Log("Matched!");
             matchCount++; // Increment match count
 
+            // Decrement flipped cards count by 2
+            flippedCardsCount -= 2;
+
             if (matchCount == 4) // Check if all cards are matched
             {
                 Debug.Log("All cards matched! Game finished!");
@@ -108,11 +111,17 @@ public class GameControl : MonoBehaviour
                 DestroyAllTokens(); // Destroy all tokens here
                 inputFieldGameObject.SetActive(true);
                 submitButtonGameObject.SetActive(true);
+
+                // Reset visibleFaces array
+                visibleFaces[0] = -1;
+                visibleFaces[1] = -2;
+
+                // Reset flipped cards count
+                flippedCardsCount = 0;
             }
         }
         return success;
     }
-
     public void Awake()
     {
         if (Instance == null)

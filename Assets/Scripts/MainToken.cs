@@ -26,8 +26,11 @@ public class MainToken : MonoBehaviour
 
     public void OnMouseDown()
     {
-        RotateToken();
-        StartCoroutine(ProcessMouseDown());
+        if (!gameControl.GetComponent<GameControl>().TwoCardsUp())
+        {
+            RotateToken();
+            StartCoroutine(ProcessMouseDown());
+        }
     }
 
     IEnumerator ProcessMouseDown()
@@ -35,13 +38,24 @@ public class MainToken : MonoBehaviour
         // Get the current animator state info
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         animator.SetTrigger("Flip");
-       // Debug.Log("Flip1");
-
-
-        // Wait for the rotation animation to finish
         yield return new WaitForSecondsRealtime(stateInfo.length);
 
-        // Continue with the rest of the logic
+        if (gameObject.transform.rotation.eulerAngles.y >= 90f)
+        {
+            Vector2 scale1 = gameObject.transform.localScale;
+            scale1.x = 0.6f;
+            gameObject.transform.localScale = scale1;
+        }
+        else if(gameObject.transform.rotation.eulerAngles.y < 90f)
+        {
+            Vector2 scale2 = gameObject.transform.localScale;
+            scale2.x = -0.6f;
+            gameObject.transform.localScale = scale2;
+        }
+
+        // Debug.Log("Flip1");
+
+
         if (!matched)
         {
             if (spriteRenderer.sprite == back)
@@ -65,7 +79,7 @@ public class MainToken : MonoBehaviour
                 spriteRenderer.sprite = back;
                 gameControl.GetComponent<GameControl>().RemoveVisibleFace(faceIndex);
 
-                // Play the flip animation backward
+                
                // animator.SetTrigger("Flip");
             }
         }
@@ -76,7 +90,7 @@ public class MainToken : MonoBehaviour
     IEnumerator CheckMatchedCards()
     {
       //  yield return new WaitForSeconds(1f); // Adjust delay time as needed
-      //  animator.SetTrigger("Idle");
+        animator.SetTrigger("Idle");
 
         if (!gameControl.GetComponent<GameControl>().CheckMatch())
         {
@@ -87,7 +101,7 @@ public class MainToken : MonoBehaviour
                 if (!mainToken.matched && mainToken.spriteRenderer.sprite != mainToken.back)
                 {
                     AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-                    animator.SetTrigger("Flip");
+                   // animator.SetTrigger("Flip");
                     Debug.Log("Flip2");
 
 
@@ -101,7 +115,7 @@ public class MainToken : MonoBehaviour
         }
         else
         {
-            // Cards are matched, set matched flag to true
+            
             foreach (var token in GameObject.FindGameObjectsWithTag("Token"))
             {
                 var mainToken = token.GetComponent<MainToken>();
