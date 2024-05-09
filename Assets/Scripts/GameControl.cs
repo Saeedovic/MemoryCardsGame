@@ -45,13 +45,13 @@ public class GameControl : MonoBehaviour
 
     public bool TwoCardsUp()
     {
-        return flippedCardsCount >= 2; // Allow flipping only if less than two cards are flipped
+        return flippedCardsCount >= 2; 
     }
 
     public void AddVisibleFace(int index)
     {
         if (flippedCardsCount < 2)
-        { // Allow adding only if less than two cards are flipped
+        { 
             if (visibleFaces[0] == -1)
             {
                 visibleFaces[0] = index;
@@ -60,7 +60,7 @@ public class GameControl : MonoBehaviour
             {
                 visibleFaces[1] = index;
             }
-            flippedCardsCount++; // Increment flipped cards count
+            flippedCardsCount++;
         }
     }
 
@@ -74,7 +74,7 @@ public class GameControl : MonoBehaviour
         {
             visibleFaces[1] = -2;
         }
-        flippedCardsCount--; // Decrement flipped cards count
+        flippedCardsCount--; 
     }
 
     public bool AllCardsMatched()
@@ -83,10 +83,10 @@ public class GameControl : MonoBehaviour
         {
             if (index >= 0)
             {
-                return false; // If any card is not matched, return false
+                return false; 
             }
         }
-        return true; // If all cards are matched, return true
+        return true; 
     }
 
     public bool CheckMatch()
@@ -99,24 +99,24 @@ public class GameControl : MonoBehaviour
             visibleFaces[1] = -2;
             success = true;
             Debug.Log("Matched!");
-            matchCount++; // Increment match count
+            matchCount++; 
 
-            // Decrement flipped cards count by 2
+            
             flippedCardsCount -= 2;
 
-            if (matchCount == 4) // Check if all cards are matched
+            if (matchCount == 4) 
             {
                 Debug.Log("All cards matched! Game finished!");
                 gameFinished = true;
-                DestroyAllTokens(); // Destroy all tokens here
+                DestroyAllTokens(); 
                 inputFieldGameObject.SetActive(true);
                 submitButtonGameObject.SetActive(true);
 
-                // Reset visibleFaces array
+                
                 visibleFaces[0] = -1;
                 visibleFaces[1] = -2;
 
-                // Reset flipped cards count
+                
                 flippedCardsCount = 0;
             }
         }
@@ -130,7 +130,7 @@ public class GameControl : MonoBehaviour
         }
         else if (Instance != this)
         {
-            Destroy(gameObject); // Destroy the duplicate instance
+            Destroy(gameObject); 
         }
 
         tokenPrefab = GameObject.Find("Token");
@@ -147,7 +147,7 @@ public class GameControl : MonoBehaviour
             float timeTaken = Time.time - startTime;
             leaderboardManager.AddEntry(playerName, timeTaken);
 
-            // Add the following line to check if the leaderboardEntries list is not empty
+            
             Debug.Log("Leaderboard entries count: " + leaderboardManager.leaderboardEntries.Count);
 
             leaderboardManager.SaveLeaderboard();
@@ -163,16 +163,16 @@ public class GameControl : MonoBehaviour
         GameObject[] tokens = GameObject.FindGameObjectsWithTag("Token");
         foreach (GameObject token in tokens)
         {
-            Destroy(token); // Destroy each token
+            Destroy(token); 
         }
     }
     public void OnSubmitPlayerName()
     {
-        // Attempt to get the TMP_InputField component
+        
         TMP_InputField inputField = inputFieldGameObject.GetComponent<TMP_InputField>();
         if (inputField != null)
         {
-            // Only proceed if the component is successfully retrieved
+            
             string playerName = inputField.text;
             GameFinished(playerName);
 

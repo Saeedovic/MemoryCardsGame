@@ -2156,6 +2156,10 @@ PrefabInstance:
       propertyPath: back
       value: 
       objectReference: {fileID: 21300000, guid: 248f92a8f91a95944ad35c33e2c9d962, type: 3}
+    - target: {fileID: 7130779967644277273, guid: b68db4db2160f6342936181221e8740d, type: 3}
+      propertyPath: flipAnimationClip
+      value: 
+      objectReference: {fileID: 7400000, guid: 54b898bec09612849936d4d2b09f8fd2, type: 2}
     - target: {fileID: 8461793549876690323, guid: b68db4db2160f6342936181221e8740d, type: 3}
       propertyPath: m_Name
       value: Token

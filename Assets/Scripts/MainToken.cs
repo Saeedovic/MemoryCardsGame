@@ -12,10 +12,8 @@ public class MainToken : MonoBehaviour
     public Sprite back;
     public int faceIndex;
     public bool matched = false;
-  private Animator animator;
-   // public GameControl _gameControl;
-    
-
+    private Animator animator;
+    // public GameControl _gameControl;
 
     void Start()
     {
@@ -35,10 +33,12 @@ public class MainToken : MonoBehaviour
 
     IEnumerator ProcessMouseDown()
     {
-        // Get the current animator state info
+
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         animator.SetTrigger("Flip");
         yield return new WaitForSecondsRealtime(stateInfo.length);
+
+        Debug.Log("animation time  = " + stateInfo.length);
 
         if (gameObject.transform.rotation.eulerAngles.y >= 90f)
         {
@@ -46,7 +46,7 @@ public class MainToken : MonoBehaviour
             scale1.x = 0.6f;
             gameObject.transform.localScale = scale1;
         }
-        else if(gameObject.transform.rotation.eulerAngles.y < 90f)
+        else if (gameObject.transform.rotation.eulerAngles.y < 90f)
         {
             Vector2 scale2 = gameObject.transform.localScale;
             scale2.x = -0.6f;
@@ -66,7 +66,7 @@ public class MainToken : MonoBehaviour
                     gameControl.GetComponent<GameControl>().AddVisibleFace(faceIndex);
 
                     // Play the flip animation forward
-                //    animator.SetTrigger("Flip");
+                    //    animator.SetTrigger("Flip");
 
                     if (gameControl.GetComponent<GameControl>().TwoCardsUp())
                     {
@@ -79,8 +79,8 @@ public class MainToken : MonoBehaviour
                 spriteRenderer.sprite = back;
                 gameControl.GetComponent<GameControl>().RemoveVisibleFace(faceIndex);
 
-                
-               // animator.SetTrigger("Flip");
+
+                // animator.SetTrigger("Flip");
             }
         }
     }
@@ -89,19 +89,19 @@ public class MainToken : MonoBehaviour
 
     IEnumerator CheckMatchedCards()
     {
-      //  yield return new WaitForSeconds(1f); // Adjust delay time as needed
+
         animator.SetTrigger("Idle");
 
         if (!gameControl.GetComponent<GameControl>().CheckMatch())
         {
-            // Cards are not matched, close only the newly opened unmatched cards
+
             foreach (var token in GameObject.FindGameObjectsWithTag("Token"))
             {
                 var mainToken = token.GetComponent<MainToken>();
                 if (!mainToken.matched && mainToken.spriteRenderer.sprite != mainToken.back)
                 {
                     AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-                   // animator.SetTrigger("Flip");
+                    // animator.SetTrigger("Flip");
                     Debug.Log("Flip2");
 
 
@@ -115,7 +115,7 @@ public class MainToken : MonoBehaviour
         }
         else
         {
-            
+
             foreach (var token in GameObject.FindGameObjectsWithTag("Token"))
             {
                 var mainToken = token.GetComponent<MainToken>();
@@ -130,6 +130,6 @@ public class MainToken : MonoBehaviour
 
     public void RotateToken()
     {
-       // animator.SetTrigger("Rotate");
+        // animator.SetTrigger("Rotate");
     }
 }

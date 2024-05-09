@@ -35,14 +35,14 @@ public class LeaderboardManager : MonoBehaviour
 
      public void Awake()
     {
-        LoadLeaderboard(); // Load the leaderboard data when the script is initialized
+        LoadLeaderboard(); 
     }
 
     public void Start()
     {
         Debug.Log("Loaded");
        
-        LoadLeaderboard(); // Load the leaderboard data afterwards
+        LoadLeaderboard(); 
        
 
         Debug.Log("Leaderboard entries count: " + leaderboardEntries.Count);
@@ -95,7 +95,7 @@ public class LeaderboardManager : MonoBehaviour
         
         Debug.Log("Calling UpdateLeaderboardUI");
 
-        UpdateLeaderboardUI(); // Update UI with new entry
+        UpdateLeaderboardUI();
     }
 
 
@@ -143,7 +143,7 @@ public class LeaderboardManager : MonoBehaviour
             string json = File.ReadAllText(Application.persistentDataPath + "/leaderboard.json");
             Debug.Log("Saved leaderboard data: " + json);
 
-            // Parse the JSON data and check if it matches the expected data
+            
             List<LeaderboardEntry> savedLeaderboardEntries = JsonUtility.FromJson<List<LeaderboardEntry>>(json);
             bool dataMatches = true;
             for (int i = 0; i < savedLeaderboardEntries.Count && i < leaderboardEntries.Count; i++)
