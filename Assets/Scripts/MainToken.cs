@@ -47,16 +47,27 @@ public class MainToken : MonoBehaviour
                     animator.SetTrigger("Flip");
 
                     yield return new WaitForSecondsRealtime(stateInfo.length * 0.5f);
+                    Debug.Log(" ROTATION 1 = " + transform.rotation.eulerAngles.y);
                     spriteRenderer.sprite = faces[faceIndex];
-                  //  transform.rotation = Quaternion.Euler(0, 90, 0);
+                    Debug.Log("ROTATION 2 = " + transform.rotation.eulerAngles.y);
 
-               // animator.SetTrigger("Idle");
+
+
+                    //  transform.rotation = Quaternion.Euler(0, 180, 0);
+
+
+                    animator.SetTrigger("Idle");
+                    Debug.Log(" ROTATION 3 = " + transform.rotation.eulerAngles.y);
+
+
 
 
 
 
                     // yield return new WaitForSecondsRealtime(stateInfo.length);
                     gameControl.GetComponent<GameControl>().AddVisibleFace(faceIndex);
+                    
+
 
                     // Play the flip animation forward
                     //    animator.SetTrigger("Flip");
@@ -78,7 +89,10 @@ public class MainToken : MonoBehaviour
 
             }
         }
+        Debug.Log(" ROTATION 4 = " + transform.rotation.eulerAngles.y);
+
     }
+
 
 
 
