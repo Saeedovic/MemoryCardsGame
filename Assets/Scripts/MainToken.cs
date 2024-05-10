@@ -26,43 +26,36 @@ public class MainToken : MonoBehaviour
     {
         if (!gameControl.GetComponent<GameControl>().TwoCardsUp())
         {
-            RotateToken();
+            //. RotateToken();
             StartCoroutine(ProcessMouseDown());
         }
     }
 
     IEnumerator ProcessMouseDown()
     {
+        /* AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+              animator.SetTrigger("Flip");
+              yield return new WaitForSecondsRealtime(stateInfo.length * 0.5f);*/
 
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        animator.SetTrigger("Flip");
-        yield return new WaitForSecondsRealtime(stateInfo.length);
-
-        Debug.Log("animation time  = " + stateInfo.length);
-
-        if (gameObject.transform.rotation.eulerAngles.y >= 90f)
-        {
-            Vector2 scale1 = gameObject.transform.localScale;
-            scale1.x = 0.6f;
-            gameObject.transform.localScale = scale1;
-        }
-        else if (gameObject.transform.rotation.eulerAngles.y < 90f)
-        {
-            Vector2 scale2 = gameObject.transform.localScale;
-            scale2.x = -0.6f;
-            gameObject.transform.localScale = scale2;
-        }
-
-        // Debug.Log("Flip1");
-
-
         if (!matched)
         {
             if (spriteRenderer.sprite == back)
             {
                 if (!gameControl.GetComponent<GameControl>().TwoCardsUp())
                 {
+                    animator.SetTrigger("Flip");
+
+                    yield return new WaitForSecondsRealtime(stateInfo.length * 0.5f);
                     spriteRenderer.sprite = faces[faceIndex];
+                  //  transform.rotation = Quaternion.Euler(0, 90, 0);
+
+               // animator.SetTrigger("Idle");
+
+
+
+
+                    // yield return new WaitForSecondsRealtime(stateInfo.length);
                     gameControl.GetComponent<GameControl>().AddVisibleFace(faceIndex);
 
                     // Play the flip animation forward
@@ -70,17 +63,19 @@ public class MainToken : MonoBehaviour
 
                     if (gameControl.GetComponent<GameControl>().TwoCardsUp())
                     {
+                        yield return new WaitForSecondsRealtime(stateInfo.length);
                         StartCoroutine(CheckMatchedCards());
                     }
                 }
             }
             else
             {
+                animator.SetTrigger("Flip");
+                yield return new WaitForSecondsRealtime(stateInfo.length * 0.5f);
                 spriteRenderer.sprite = back;
                 gameControl.GetComponent<GameControl>().RemoveVisibleFace(faceIndex);
 
 
-                // animator.SetTrigger("Flip");
             }
         }
     }
@@ -107,7 +102,9 @@ public class MainToken : MonoBehaviour
 
 
 
-                    yield return new WaitForSecondsRealtime(stateInfo.length);
+
+                    animator.SetTrigger("Flip");
+                    yield return new WaitForSecondsRealtime(stateInfo.length * 0.5f);
                     mainToken.spriteRenderer.sprite = mainToken.back;
                     gameControl.GetComponent<GameControl>().RemoveVisibleFace(mainToken.faceIndex);
                 }

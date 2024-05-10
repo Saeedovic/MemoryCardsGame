@@ -2152,6 +2152,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1812394734351148602, guid: b68db4db2160f6342936181221e8740d, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1812394734351148602, guid: b68db4db2160f6342936181221e8740d, type: 3}
+      propertyPath: m_DrawMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7130779967644277273, guid: b68db4db2160f6342936181221e8740d, type: 3}
       propertyPath: back
       value: 
@@ -2163,6 +2171,14 @@ PrefabInstance:
     - target: {fileID: 8461793549876690323, guid: b68db4db2160f6342936181221e8740d, type: 3}
       propertyPath: m_Name
       value: Token
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115912505375080871, guid: b68db4db2160f6342936181221e8740d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115912505375080871, guid: b68db4db2160f6342936181221e8740d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 9115912505375080871, guid: b68db4db2160f6342936181221e8740d, type: 3}
       propertyPath: m_LocalPosition.x
